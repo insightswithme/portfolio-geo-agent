@@ -1,0 +1,31 @@
+{
+  "name": "portfolio-geo-agent",
+  "version": "1.0.0",
+  "description": "Optimizely Opal tool that extracts country and state mentions from a portfolio page.",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "tsx --test src/extract-geo.test.ts src/fetch-page.test.ts src/server.test.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@optimizely-opal/opal-tools-sdk": "^0.1.41-dev",
+    "cheerio": "^1.2.0",
+    "cors": "^2.8.6",
+    "country-state-city": "^3.2.1",
+    "express": "^4.22.3",
+    "reflect-metadata": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

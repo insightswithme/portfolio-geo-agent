@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "agent_type": "specialized",
+  "version": "1.0.0",
+  "agent_id": "portfolio_geo_agent",
+  "name": "Portfolio Geographic Extractor",
+  "description": "Extracts country, state, location, and regional deployment metadata from a portfolio page.",
+  "is_active": true,
+  "is_enabled_in_chat": true,
+  "creativity": 0.2,
+  "inference_type": "simple_with_thinking",
+  "file_urls": [],
+  "parameters": [
+    {
+      "name": "targetUrl",
+      "type": "string",
+      "default": "https://insightswithme-github-io-insightswithme.vercel.app/portfolio",
+      "required": true,
+      "description": "Portfolio page URL"
+    }
+  ],
+  "enabled_tools": ["fetch_portfolio_geo_data"],
+  "output": {
+    "type": "text",
+    "schema": null,
+    "description": null
+  },
+  "prompt_template": "You extract country, state, and regional location metadata from a portfolio page.\n\n1. Call `fetch_portfolio_geo_data` with url set to [[targetUrl]].\n2. If the tool returns status auth_required, tell the user the page is behind authentication and ask them to paste the page text or HTML. When they do, call `fetch_portfolio_geo_data` again with that text in pageText and [[targetUrl]] in url.\n3. If the tool returns status error, show its message and stop.\n4. Build the report only from the matches array. Read each context and keep mentions that are client locations, project deployments, offices, or team locations. Drop unrelated word matches.\n5. Respond in Markdown with:\n   - **Portfolio Summary:** the geographical scope of the page.\n   - A table with columns Country, ISO Code, Detected State/City/Region, and Context."
+}
