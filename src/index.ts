@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import express from "express";
 import { loadConfig, loadEnvFile } from "./config";
 import { createApp } from "./create-app";
 
@@ -13,20 +14,25 @@ try {
   process.exit(1);
 }
 
-const app = createApp(config);
-const server = app.listen(config.port, () => {
-  console.log(`Portfolio geo tool listening on port ${config.port}`);
-  console.log(`Discovery URL: http://localhost:${config.port}/discovery`);
-  console.log("Tool execution requires Authorization: Bearer <OPAL_TOOL_SECRET>");
-});
+const app: express.Express = createApp(config);
 
-server.on("error", (error: NodeJS.ErrnoException) => {
-  if (error.code === "EADDRINUSE") {
-    console.error(
-      `Port ${config.port} is already in use. Stop the other process or set a different PORT in .env.`,
-    );
-  } else {
-    console.error(error.message);
-  }
-  process.exit(1);
-});
+if (!process.env.VERCEL) {
+  const server = app.listen(config.port, () => {
+    console.log(`Portfolio geo tool listening on port ${config.port}`);
+    console.log(`Discovery URL: http://localhost:${config.port}/discovery`);
+    console.log("Tool execution requires Authorization: Bearer <OPAL_TOOL_SECRET>");
+  });
+
+  server.on("error", (error: NodeJS.ErrnoException) => {
+    if (error.code === "EADDRINUSE") {
+      console.error(
+        `Port ${config.port} is already in use. Stop the other process or set a different PORT in .env.`,
+      );
+    } else {
+      console.error(error.message);
+    }
+    process.exit(1);
+  });
+}
+
+export default app;
